@@ -123,7 +123,7 @@ class EmployeesController extends Controller
         else {
             //response jika resource tidak ada
             $data = [
-                'message' => 'Resource not found',
+                'message' => 'Resource not found'
             ];
 
             //mengembalikan data (json) dan status code 404 (not found)
@@ -234,5 +234,60 @@ class EmployeesController extends Controller
             //mengembalikan data (json) dan status code 404 (not found)
             return response()->json($data, 404);
         }
+    }
+
+    public function active(Request $request)
+    {
+        // Mendapatkan resource yang aktif
+        $employees = Employees::where('status', 'Active')->get();
+
+        $totalActiveEmployees = $employees->count();
+
+        //response jika resource berhasil
+        $data = [
+            'message' => 'Menampilkan semua employees yang aktif',
+            'total' => $totalActiveEmployees,
+            'data' => $employees
+        ];
+        
+        // mengembalikan data json dan status code 200 
+        return response()->json($data, 200);
+    }
+
+    // Membuat method inactive
+    public function inactive(Request $request)
+    {
+        // Mendapatkan resource yang tidak aktif
+        $employees = Employees::where('status', 'Inactive')->get();
+
+        $totalInactiveEmployees = $employees->count();
+
+        //response jika resource berhasil
+        $data = [
+            'message' => 'Menampilkan semua employees yang tidak aktif',
+            'total' => $totalInactiveEmployees,
+            'data' => $employees
+        ];
+
+        // mengembalikan data json dan status code 200 
+        return response()->json($data, 200);
+    }
+
+    public function terminated(Request $request)
+    {
+        // Mendapatkan resource yang dihentikan
+        $employees = Employees::where('status', 'Terminated')->get();
+
+        $totalTerminatedEmployees = $employees->count();
+
+        //response jika resource berhasil
+        $data = [
+            'message' => 'Menampilkan semua employees yang dihentikan',
+            'total' => $totalTerminatedEmployees,
+            'data' => $employees
+        ];
+
+        // mengembalikan data json dan kode 200 (the request succeeded)
+        return response()->json($data, 200);
     }
 }
